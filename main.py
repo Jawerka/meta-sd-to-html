@@ -8,11 +8,7 @@ from PIL import Image
 
 # === Конфигурация ===
 
-# Пути, где ищем изображения
-image_dir = [Path(r"C:\storage\AI\work"), Path(r"C:\storage\AI\promt")]
-
-# Путь к выходному HTML-файлу
-output_html = Path(r"C:\storage\AI\gallery.html")
+from settings import *
 
 # Поддерживаемые расширения изображений
 supported_extensions = {'.png', '.jpg', '.jpeg', '.webp'}
