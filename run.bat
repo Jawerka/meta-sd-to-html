@@ -15,12 +15,16 @@ if not exist ".git" (
 )
 
 REM Копируем все файлы из meta-sd-to-html в текущую директорию с заменой
-echo Copying files...
-xcopy /E /H /Y "meta-sd-to-html\*" .\
+if exist "meta-sd-to-html" (
+    echo Copying files...
+    xcopy /E /H /Y "meta-sd-to-html\*" .\
+    )
 
 REM Удаляем временную папку с репозиторием после копирования файлов
-echo Deleting the temporary repository folder...
-rd /s /q "meta-sd-to-html"
+if exist "meta-sd-to-html" (
+    echo Deleting the temporary repository folder...
+    rd /s /q "meta-sd-to-html"
+    )
 
 REM Проверка наличия виртуального окружения
 if not exist "venv\Scripts\activate.bat" (
