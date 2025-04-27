@@ -46,12 +46,11 @@ if exist "requirements.txt" (
 )
 
 REM Проверяем, существует ли settings.py
-if not exist settings.py (
+if not exist "settings.py" (
     echo from pathlib import Path> settings.py
     echo.>> settings.py
     echo # Пути, где ищем изображения>> settings.py
-    echo image_dir = [Path(r"C:\AI\FirstFolder"), Path(r"C:\AI\SecondFolder")]>>
-    settings.py
+    echo image_dir = [Path(r"C:\AI\FirstFolder"), Path(r"C:\AI\SecondFolder")]>> settings.py
     echo.>> settings.py
     echo # Путь к выходному HTML-файлу>> settings.py
     echo output_html = Path(r"C:\AI\gallery.html")>> settings.py
