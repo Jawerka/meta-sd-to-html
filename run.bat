@@ -1,7 +1,5 @@
 @echo off
 setlocal enabledelayedexpansion
-REM Устанавливаем кодировку UTF-8 для корректного отображения символов
-chcp 65001
 REM Переход в папку, где находится этот скрипт
 cd /d "%~dp0"
 
