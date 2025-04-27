@@ -264,7 +264,6 @@ html_template = Template("""<!DOCTYPE html>
       const images = ${image_data_json};
       let filteredImages = images.slice();
       let currentIndex = 0;
-      let scale = 1;
     
       const img = document.getElementById('main-image');
       const container = document.getElementById('image-container');
@@ -283,6 +282,10 @@ html_template = Template("""<!DOCTYPE html>
         updateContent();
       }
     
+      function sanitizeHash(str) {
+        return str.replace(/[^a-zA-Z0-9\\-_]/g, '_');
+      }
+    
       function renderThumbnails() {
         const strip = document.getElementById('thumbnail-strip');
         strip.innerHTML = '';
@@ -292,34 +295,37 @@ html_template = Template("""<!DOCTYPE html>
           thumb.onclick = () => {
             currentIndex = index;
             updateContent();
+            location.hash = sanitizeHash(filteredImages[currentIndex].src);
           };
           strip.appendChild(thumb);
         });
       }
     
-    function updateContent() {
-      if (!filteredImages.length) return;
-      const data = filteredImages[currentIndex];
-      img.src = data.src;
-      scale = 1;
-      img.style.transform = 'scale(1)';
-      img.style.cursor = 'zoom-in';
-      document.getElementById('prompt-text').value = data.prompt;
-      document.getElementById('negative-text').value = data.negative;
-      document.getElementById('params-text').value = data.params;
+      function updateContent() {
+        if (!filteredImages.length) return;
+        const data = filteredImages[currentIndex];
+        img.src = data.src;
+        fullscreenImage.src = data.src;  // Обновление полноэкранного изображения
+        img.style.transform = 'scale(1)';
+        img.style.cursor = 'zoom-in';
+        document.getElementById('prompt-text').value = data.prompt;
+        document.getElementById('negative-text').value = data.negative;
+        document.getElementById('params-text').value = data.params;
     
-      const thumbnails = document.querySelectorAll('#thumbnail-strip img');
-      thumbnails.forEach((thumb, i) => {
-        thumb.style.borderColor = i === currentIndex ? '#3ea6ff' : 'transparent';
-        if (i === currentIndex) {
-          thumb.scrollIntoView({
-            behavior: 'auto',    // <-- моментальная прокрутка
-            inline: 'center',
-            block: 'nearest'
-          });
-        }
-      });
-    }
+        location.hash = sanitizeHash(data.src);
+    
+        const thumbnails = document.querySelectorAll('#thumbnail-strip img');
+        thumbnails.forEach((thumb, i) => {
+          thumb.style.borderColor = i === currentIndex ? '#3ea6ff' : 'transparent';
+          if (i === currentIndex) {
+            thumb.scrollIntoView({
+              behavior: 'auto',
+              inline: 'center',
+              block: 'nearest'
+            });
+          }
+        });
+      }
     
       leftArrow.onclick = () => {
         currentIndex = (currentIndex - 1 + filteredImages.length) % filteredImages.length;
@@ -341,38 +347,29 @@ html_template = Template("""<!DOCTYPE html>
         rightArrow.classList.remove('show');
       });
     
-      // Общий обработчик колёсика
-    document.addEventListener('wheel', function(e) {
-      const thumbnailStrip = document.getElementById('thumbnail-strip');
-      const isOverThumbnailStrip = thumbnailStrip.contains(e.target);
+      // Обработчик колёсика
+      document.addEventListener('wheel', function(e) {
+        const thumbnailStrip = document.getElementById('thumbnail-strip');
+        const isOverThumbnailStrip = thumbnailStrip.contains(e.target);
+        const isOverTextArea = e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT';
     
-      const isOverTextArea = e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT';
-    
-      if (isOverTextArea) {
-        // Если колесо над текстовым полем — ничего не перехватываем
-        return;
-      }
-    
-      if (isOverThumbnailStrip) {
-        if (e.deltaY !== 0) {
+        if (isOverTextArea) {
+          // Если колесо над текстовым полем, прокручиваем текстовое поле
+          e.preventDefault();
+          e.target.scrollTop += e.deltaY;
+        } else if (isOverThumbnailStrip) {
+          // Если колесо над лентой превью, прокручиваем ленту
           e.preventDefault();
           thumbnailStrip.scrollLeft += e.deltaY;
-        }
-      } else {
-        if (scale > 1.01) {
-          e.preventDefault();
-          scale += e.deltaY < 0 ? 0.1 : -0.1;
-          scale = Math.max(1, scale);
-          img.style.transform = `scale($${scale})`;
         } else {
+          // Если колесо не над лентой превью и не над текстовым полем, переключаем изображения
           e.preventDefault();
           currentIndex = e.deltaY > 0
             ? (currentIndex + 1) % filteredImages.length
             : (currentIndex - 1 + filteredImages.length) % filteredImages.length;
           updateContent();
         }
-      }
-    }, { passive: false });
+      }, { passive: false });
     
       img.addEventListener('click', () => {
         fullscreenOverlay.style.display = 'flex';
@@ -399,6 +396,16 @@ html_template = Template("""<!DOCTYPE html>
           console.log('Все поля скопированы');
         });
       }
+    
+      window.addEventListener('load', () => {
+        if (location.hash) {
+          const targetHash = location.hash.substring(1); // убираем #
+          const index = filteredImages.findIndex(img => sanitizeHash(img.src) === targetHash);
+          if (index !== -1) {
+            currentIndex = index;
+          }
+        }
+      });
     
       // Инициализация:
       renderThumbnails();
