@@ -55,10 +55,13 @@ if not exist "%TARGET_FILE%" (
     echo from pathlib import Path> "%TARGET_FILE%"
     echo.>> "%TARGET_FILE%"
     echo # Пути, где ищем изображения>> "%TARGET_FILE%"
-    echo image_dir = [Path(r"C:\AI\FirstFolder"), Path(r"C:\AI\SecondFolder")]>> "%TARGET_FILE%"
+	echo image_dir = ^[>> "%TARGET_FILE%"
+	echo     Path^(r^"C:\AI\FirstFolder^"^),>> "%TARGET_FILE%"
+	echo     Path^(r^"C:\AI\SecondFolder^"^),>> "%TARGET_FILE%"
+	echo ^]>> "%TARGET_FILE%"
     echo.>> "%TARGET_FILE%"
     echo # Путь к выходному HTML-файлу>> "%TARGET_FILE%"
-    echo output_html = Path(r"C:\AI\gallery.html")>> "%TARGET_FILE%"
+    echo output_html = Path^(r^"C:\AI\gallery.html^"^)>> "%TARGET_FILE%"
     echo The settings.py file was successfully created.
 ) else (
     echo The settings.py file already exists.
@@ -74,6 +77,7 @@ if not exist "main.py" (
 REM Запуск main.py
 echo Running main.py...
 python main.py
+pause
 
 REM Деактивация виртуального окружения
 echo Deactivating virtual environment...
