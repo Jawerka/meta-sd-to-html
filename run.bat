@@ -2,6 +2,7 @@
 setlocal enabledelayedexpansion
 REM Переход в папку, где находится этот скрипт
 cd /d "%~dp0"
+set "TARGET_FILE=%cd%\settings.py"
 
 REM Проверка наличия репозитория
 if not exist ".git" (
@@ -50,14 +51,14 @@ if exist "requirements.txt" (
 )
 
 REM Проверяем, существует ли settings.py
-if not exist "settings.py" (
-    echo from pathlib import Path> settings.py
-    echo.>> settings.py
-    echo # Пути, где ищем изображения>> settings.py
-    echo image_dir = [Path(r"C:\AI\FirstFolder"), Path(r"C:\AI\SecondFolder")]>> settings.py
-    echo.>> settings.py
-    echo # Путь к выходному HTML-файлу>> settings.py
-    echo output_html = Path(r"C:\AI\gallery.html")>> settings.py
+if not exist "%TARGET_FILE%" (
+    echo from pathlib import Path> "%TARGET_FILE%"
+    echo.>> "%TARGET_FILE%"
+    echo # Пути, где ищем изображения>> "%TARGET_FILE%"
+    echo image_dir = [Path(r"C:\AI\FirstFolder"), Path(r"C:\AI\SecondFolder")]>> "%TARGET_FILE%"
+    echo.>> "%TARGET_FILE%"
+    echo # Путь к выходному HTML-файлу>> "%TARGET_FILE%"
+    echo output_html = Path(r"C:\AI\gallery.html")>> "%TARGET_FILE%"
     echo The settings.py file was successfully created.
 ) else (
     echo The settings.py file already exists.
