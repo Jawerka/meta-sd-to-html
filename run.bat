@@ -24,7 +24,8 @@ rd /s /q "meta-sd-to-html"
 REM Проверка наличия виртуального окружения
 if not exist "venv\Scripts\activate.bat" (
     echo Виртуальное окружение не найдено. Создаём...
-    python -m venv venv  REM Создание виртуального окружения
+    REM Создание виртуального окружения
+    python -m venv venv
     if not exist "venv\Scripts\activate.bat" (
         echo Ошибка: Не удалось создать виртуальное окружение.
         exit /b 1
