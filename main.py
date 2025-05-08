@@ -21,22 +21,22 @@ html_template = Template("""<!DOCTYPE html>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Галерея</title>
-  <style>
-    body {
-      background: #0e0e0e;
-      color: #eee;
-      font-family: "Segoe UI", sans-serif;
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-    }
-    .main-container {
-      display: flex;
-      flex: 1;
-      overflow: hidden;
-    }
-    .selector {
+    <style>
+      body {
+        background: #0e0e0e;
+        color: #eee;
+        font-family: "Segoe UI", sans-serif;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+      }
+      .main-container {
+        display: flex;
+        flex: 1;
+        overflow: hidden;
+      }
+      .selector {
         display: flex;
         position: absolute;
         left: 10px;
@@ -45,181 +45,214 @@ html_template = Template("""<!DOCTYPE html>
         transition: opacity 0.2s ease;
         pointer-events: auto;
         z-index: 10;
-    }
-    
-    .selector:hover {
+      }
+      .selector:hover {
         opacity: 1;
-    }
-    .image-container {
-      flex: 3;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      padding: 10px;
-      overflow: hidden;
-    }
-    .image-container img {
-      max-width: 100%;
-      max-height: 100%;
-      border-radius: 12px;
-      transition: transform 0.2s;
-      cursor: zoom-in;
-    }
-    .info-panel {
-      width: 47%;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      padding: 10px;
-      box-sizing: border-box;
-      height: 100%;
-      position: relative;
-    }
-    .text-block {
-      position: relative;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    .info-panel textarea {
-      background: #1e1e1e;
-      color: white;
-      border: none;
-      padding: 10px 34px 10px 10px;
-      border-radius: 8px;
-      resize: none;
-      width: 100%;
-      font-family: inherit;
-      flex: 1;
-      box-sizing: border-box;
-      min-height: 0;
-    }
-    .text-block.prompt { flex: 5; }
-    .text-block.negative { flex: 2; }
-    .text-block.params { flex: 3; }
-    .copy-btn {
-      position: absolute;
-      top: 6px;
-      right: 8px;
-      background: none;
-      border: none;
-      color: #aaa;
-      font-size: 16px;
-      cursor: pointer;
-      z-index: 2;
-      opacity: 0.3;
-      transition: opacity 0.2s;
-      padding: 0;
-    }
-    .text-block:hover .copy-btn {
-      opacity: 1;
-    }
-    .copy-all-btn {
-      position: absolute;
-      right: 10px;
-      bottom: 10px;
-      z-index: 2;
-      background: none;
-      border: none;
-      color: #aaa;
-      font-size: 16px;
-      cursor: pointer;
-      opacity: 0.3;
-      transition: opacity 0.2s;
-    }
-    .copy-all-btn:hover {
-      opacity: 1;
-    }
-    .thumbnail-strip {
-      height: 110px;
-      background-color: #1a1a1a;
-      display: flex;
-      align-items: center;
-      overflow-x: auto;
-      padding: 2px;
-      box-sizing: border-box;
-      user-select: none;
-      cursor: grab;
-    }
-    .thumbnail-strip img {
-      height: 80px;
-      margin-right: 10px;
-      border-radius: 6px;
-      transition: transform 0.2s, border 0.2s;
-      border: 2px solid transparent;
-      object-fit: cover;
-    }
-    .thumbnail-strip img:hover {
-      transform: scale(1.1);
-      border-color: #3ea6ff;
-    }
-    .arrow {
-      font-size: 32px;
-      color: #eee;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 50%;
-      width: 48px;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.2s, transform 0.2s;
-      margin: 0 10px;
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      opacity: 0;
-      pointer-events: none;
-      cursor: pointer;
-      z-index: 10;
-    }
-    .arrow:hover {
-      background: rgba(255, 255, 255, 0.15);
-      transform: translateY(-50%) scale(1.1);
-    }
-    .arrow.show {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    #left-arrow { left: 10px; }
-    #right-arrow { right: 10px; }
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #333;
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #1a1a1a;
-    }
-    .image-wrapper {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-    }
-    .fullscreen-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.8);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
-    }
-    .fullscreen-overlay img {
-      max-width: 90%;
-      max-height: 90%;
-      cursor: zoom-out;
-    }
-  </style>
+      }
+      .image-container {
+        flex: 3;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        padding: 10px;
+        overflow: hidden;
+      }
+      .image-wrapper {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+      }
+      #content {
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+      }
+      #main-image {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        display: block;
+        border-radius: 12px;
+        transition: transform 0.2s;
+        cursor: zoom-in;
+      }
+      .info-panel {
+        width: 47%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px;
+        box-sizing: border-box;
+        height: 100%;
+        position: relative;
+      }
+      .text-block {
+        position: relative;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
+      .info-panel textarea {
+        background: #1e1e1e;
+        color: white;
+        border: none;
+        padding: 10px 34px 10px 10px;
+        border-radius: 8px;
+        resize: none;
+        width: 100%;
+        font-family: inherit;
+        flex: 1;
+        box-sizing: border-box;
+        min-height: 0;
+      }
+      .text-block.prompt { flex: 5; }
+      .text-block.negative { flex: 2; }
+      .text-block.params { flex: 3; }
+      .copy-btn {
+        position: absolute;
+        top: 6px;
+        right: 8px;
+        background: none;
+        border: none;
+        color: #aaa;
+        font-size: 16px;
+        cursor: pointer;
+        z-index: 2;
+        opacity: 0.3;
+        transition: opacity 0.2s;
+        padding: 0;
+      }
+      .text-block:hover .copy-btn {
+        opacity: 1;
+      }
+      .copy-all-btn {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        z-index: 2;
+        background: none;
+        border: none;
+        color: #aaa;
+        font-size: 16px;
+        cursor: pointer;
+        opacity: 0.3;
+        transition: opacity 0.2s;
+      }
+      .copy-all-btn:hover {
+        opacity: 1;
+      }
+      .thumbnail-strip {
+        height: 110px;
+        background-color: #1a1a1a;
+        display: flex;
+        align-items: center;
+        overflow-x: auto;
+        padding: 2px;
+        box-sizing: border-box;
+        user-select: none;
+        cursor: grab;
+      }
+      .thumbnail-strip img {
+        height: 80px;
+        margin-right: 10px;
+        border-radius: 6px;
+        transition: transform 0.2s, border 0.2s;
+        border: 2px solid transparent;
+        object-fit: cover;
+      }
+      .thumbnail-strip img:hover {
+        transform: scale(1.1);
+        border-color: #3ea6ff;
+      }
+      .arrow {
+        font-size: 32px;
+        color: #eee;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s, transform 0.2s;
+        margin: 0 10px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        opacity: 0;
+        pointer-events: none;
+        cursor: pointer;
+        z-index: 10;
+      }
+      .arrow:hover {
+        background: rgba(255, 255, 255, 0.15);
+        transform: translateY(-50%) scale(1.1);
+      }
+      .arrow.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      #left-arrow { left: 10px; }
+      #right-arrow { right: 10px; }
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #333;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #1a1a1a;
+      }
+      .fullscreen-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+      }
+      .fullscreen-overlay img {
+        max-width: 100%;
+        max-height: 100%;
+        cursor: grab;
+      }
+      .zoom-container {
+        position: relative;
+        overflow: hidden;
+        cursor: zoom-out;
+        user-select: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+      }
+      .zoom-container.dragging {
+        cursor: grabbing;
+      }
+      .zoom-content {
+        position: absolute;
+        transform-origin: 0 0;
+        will-change: transform;
+        width: auto;
+        height: 98%;
+      }
+    </style>
 </head>
 <body>
     <div class="selector">
@@ -229,11 +262,13 @@ html_template = Template("""<!DOCTYPE html>
     </div>
   <div class="main-container">
     <div class="image-container" id="image-container">
-      <div class="image-wrapper">
-        <span class="arrow" id="left-arrow">&#8592;</span>
-        <img id="main-image" src="${first_image}" alt="Generated image">
-        <span class="arrow" id="right-arrow">&#8594;</span>
-      </div>
+        <div class="image-wrapper">
+          <div id="content">
+            <img id="main-image" src="${first_image}" alt="Generated image" draggable="false">
+          </div>
+          <span class="arrow" id="left-arrow">&#8592;</span>
+          <span class="arrow" id="right-arrow">&#8594;</span>
+        </div>
     </div>
     <div class="info-panel">
       <div class="text-block prompt">
@@ -256,14 +291,20 @@ html_template = Template("""<!DOCTYPE html>
     ${thumbnail_html}
   </div>
 
+  <!-- Полноэкранный режим с зумом -->
   <div class="fullscreen-overlay" id="fullscreen-overlay">
-    <img id="fullscreen-image" src="${first_image}" alt="Fullscreen image">
+    <div class="zoom-container" id="zoom-container">
+      <div class="zoom-content" id="zoom-content">
+        <img id="fullscreen-image" src="" alt="Fullscreen image" draggable="false" />
+      </div>
+    </div>
   </div>
 
     <script>
       const images = ${image_data_json};
       let filteredImages = images.slice();
       let currentIndex = 0;
+      let isFullscreen = false;
     
       const img = document.getElementById('main-image');
       const container = document.getElementById('image-container');
@@ -305,7 +346,7 @@ html_template = Template("""<!DOCTYPE html>
         if (!filteredImages.length) return;
         const data = filteredImages[currentIndex];
         img.src = data.src;
-        fullscreenImage.src = data.src;  // Обновление полноэкранного изображения
+        fullscreenImage.src = data.src;
         img.style.transform = 'scale(1)';
         img.style.cursor = 'zoom-in';
         document.getElementById('prompt-text').value = data.prompt;
@@ -328,16 +369,19 @@ html_template = Template("""<!DOCTYPE html>
       }
     
       leftArrow.onclick = () => {
+        if (isFullscreen) return;
         currentIndex = (currentIndex - 1 + filteredImages.length) % filteredImages.length;
         updateContent();
       };
     
       rightArrow.onclick = () => {
+        if (isFullscreen) return;
         currentIndex = (currentIndex + 1) % filteredImages.length;
         updateContent();
       };
     
       container.addEventListener('mouseenter', () => {
+        if (isFullscreen) return;
         leftArrow.classList.add('show');
         rightArrow.classList.add('show');
       });
@@ -349,20 +393,19 @@ html_template = Template("""<!DOCTYPE html>
     
       // Обработчик колёсика
       document.addEventListener('wheel', function(e) {
+        if (isFullscreen) return;
+        
         const thumbnailStrip = document.getElementById('thumbnail-strip');
         const isOverThumbnailStrip = thumbnailStrip.contains(e.target);
         const isOverTextArea = e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT';
     
         if (isOverTextArea) {
-          // Если колесо над текстовым полем, прокручиваем текстовое поле
           e.preventDefault();
           e.target.scrollTop += e.deltaY;
         } else if (isOverThumbnailStrip) {
-          // Если колесо над лентой превью, прокручиваем ленту
           e.preventDefault();
           thumbnailStrip.scrollLeft += e.deltaY;
         } else {
-          // Если колесо не над лентой превью и не над текстовым полем, переключаем изображения
           e.preventDefault();
           currentIndex = e.deltaY > 0
             ? (currentIndex + 1) % filteredImages.length
@@ -372,41 +415,110 @@ html_template = Template("""<!DOCTYPE html>
       }, { passive: false });
     
       img.addEventListener('click', () => {
+        isFullscreen = true;
         fullscreenOverlay.style.display = 'flex';
         fullscreenImage.src = img.src;
       });
     
-      fullscreenOverlay.addEventListener('click', () => {
-        fullscreenOverlay.style.display = 'none';
-      });
-    
-      function copyText(id) {
-        const el = document.getElementById(id);
-        navigator.clipboard.writeText(el.value).then(() => {
-          console.log(`Скопировано: $${id}`);
-        });
-      }
-    
-      function copyAll() {
-        const prompt = document.getElementById('prompt-text').value;
-        const negative = document.getElementById('negative-text').value;
-        const params = document.getElementById('params-text').value;
-        const combined = `$${prompt}\nNegative prompt: $${negative}\n$${params}`;
-        navigator.clipboard.writeText(combined).then(() => {
-          console.log('Все поля скопированы');
-        });
-      }
-    
-      window.addEventListener('load', () => {
-        if (location.hash) {
-          const targetHash = location.hash.substring(1); // убираем #
-          const index = filteredImages.findIndex(img => sanitizeHash(img.src) === targetHash);
-          if (index !== -1) {
-            currentIndex = index;
-          }
+      fullscreenOverlay.addEventListener('click', (e) => {
+        // Закрываем только если клик не на самом изображении
+        if (e.target === fullscreenOverlay) {
+          isFullscreen = false;
+          fullscreenOverlay.style.display = 'none';
         }
       });
+
+    const zoomContainer = document.getElementById('zoom-container');
+    const zoomContent = document.getElementById('zoom-content');
     
+    let scale = 1;
+    let lastX = 0;
+    let lastY = 0;
+    
+    function updateTransform() {
+      zoomContent.style.transform = `translate($${lastX}px, $${lastY}px) scale($${
+      scale})`;
+    }
+    
+    // Масштабирование колесом мыши
+    zoomContainer.addEventListener('wheel', function (e) {
+      e.preventDefault();
+    
+      const zoomIntensity = 0.1;
+      const delta = -Math.sign(e.deltaY) * zoomIntensity;
+    
+      const rect = zoomContainer.getBoundingClientRect();
+    
+      // Координаты курсора относительно контейнера
+      const offsetX = e.clientX - rect.left;
+      const offsetY = e.clientY - rect.top;
+    
+      // Координаты относительно текущего масштаба
+      const x = (offsetX - lastX) / scale;
+      const y = (offsetY - lastY) / scale;
+    
+      // Новый масштаб
+      const newScale = Math.min(Math.max(0.1, scale * (1 + delta)), 10);
+    
+      // Корректируем смещение так, чтобы масштабирование происходило относительно курсора
+      lastX -= x * (newScale - scale);
+      lastY -= y * (newScale - scale);
+    
+      scale = newScale;
+      updateTransform();
+    });
+
+    // Перетаскивание мышью
+    let isDragging = false;
+    let startX, startY;
+
+    zoomContainer.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      isDragging = true;
+      startX = e.clientX - lastX;
+      startY = e.clientY - lastY;
+      zoomContainer.classList.add('dragging');
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      lastX = e.clientX - startX;
+      lastY = e.clientY - startY;
+      updateTransform();
+    });
+
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+      zoomContainer.classList.remove('dragging');
+    });
+
+    // Блокируем браузерное поведение drag'n'drop
+    zoomContent.addEventListener('dragstart', e => e.preventDefault());
+    zoomContent.querySelectorAll('img').forEach(img => {
+      img.addEventListener('dragstart', e => e.preventDefault());
+    });
+
+    // Открытие полноэкранного режима при клике на изображение
+    const mainImage = document.getElementById('main-image');
+    mainImage.addEventListener('click', () => {
+      isFullscreen = true;
+      fullscreenImage.src = mainImage.src;
+      fullscreenOverlay.style.display = 'flex';
+      scale = 1;
+      lastX = 0;
+      lastY = 0;
+      updateTransform();
+    });
+
+    // Закрытие полноэкранного режима при клике
+    fullscreenOverlay.addEventListener('click', (e) => {
+      // Закрываем только если клик не на самом изображении или его контейнере
+      if (e.target === fullscreenOverlay || e.target === zoomContainer) {
+        isFullscreen = false;
+        fullscreenOverlay.style.display = 'none';
+      }
+    });
+
       // Инициализация:
       renderThumbnails();
       updateContent();
